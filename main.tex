@@ -1,0 +1,189 @@
+\documentclass[12pt, a4paper, twoside]{book}
+
+\usepackage[utf8]{inputenc}
+\usepackage[sorting=none,citestyle=ieee,backend=biber]{biblatex}
+\bibliography{bibliography}
+
+\usepackage[usenames,dvipsnames,table]{xcolor}
+\usepackage[bitstream-charter]{mathdesign}
+\usepackage{fancyhdr}
+\usepackage[colorlinks]{hyperref}
+\hypersetup{
+     colorlinks   = true,
+     allcolors    = blue
+}
+
+\usepackage[nogroupskip,nonumberlist,toc]{glossaries}
+\makeglossaries
+
+\usepackage{amsmath}
+\usepackage{minted}
+\usemintedstyle{pastie}
+
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usepackage{pgfgantt}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\graphicspath{{Graphics/}}
+
+\usepackage{enumitem}
+\usepackage{parskip}
+\usepackage{pdfpages}
+\usepackage{rotating}
+\usepackage{setspace}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{longtable}
+\usepackage{tabu}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{threeparttable}
+\usepackage{filecontents}
+\usepackage[hmarginratio=3:2]{geometry}
+\usepackage{tocloft}
+\usepackage[toc,page]{appendix}
+\renewcommand{\cftpartleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}}
+
+\renewcommand{\baselinestretch}{1.5} % 1.5 line spacing
+
+\input{acronyms}
+
+\pgfplotsset{compat=1.13}
+
+\begin{document}
+
+\frontmatter
+
+% Title page horizontal line
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+% Title of report
+\newcommand{\ttitle}{Architectural Design and Visualisation in Virtual Reality}
+
+\begin{titlepage}
+    \begin{center}
+        \begin{figure}[ht]
+            \centering
+            \includegraphics[width=4cm]{crest.jpg}
+        \end{figure}
+        
+        \textsc{\LARGE University of Warwick}\\[0.25cm]
+        {\Large{Department of Computer Science}}\\[1.5cm]
+        \HRule \\[0.4cm]
+        {\huge \bfseries \ttitle}\\
+        \HRule \\[1.5cm]
+        
+        \begin{minipage}{0.4\textwidth}
+            \begin{flushleft}
+                \large \emph{Authors:}\\Alex Dixon,\\David Richardson,\\Jakub Zawadzki
+            \end{flushleft}
+        \end{minipage}
+        \begin{minipage}{0.4\textwidth}
+            \begin{flushright}
+                \large \emph{Supervisors:}\\Arshad Jhumka,\\Hongkai Wen
+            \end{flushright}
+        \end{minipage}\\[1cm]
+        
+        \textit{\large CS407 Project Report}\\
+        {\large April 2017}\\
+        
+        \vfill
+    \end{center}
+\end{titlepage}
+
+% Blank pages for 
+\pagestyle{empty}
+
+\newgeometry{hmarginratio=2:3}
+
+% Clear page headers
+\fancyhead{}
+\fancyhead[LO]{\leftmark}
+\fancyhead[RE]{\leftmark}
+\setlength{\headheight}{15pt}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\chaptermark}[1]{%
+\markboth{#1}{}}
+% End clear page headers
+
+\chapter{Abstract}
+
+\input{Abstract/abstract}
+
+\clearpage
+
+\chapter{Acknowledgements}
+
+\input{Acknowledgements/acknowledgements}
+
+\clearpage
+
+\tableofcontents
+\addcontentsline{toc}{chapter}{Contents}
+\clearpage
+
+\listoffigures
+\addcontentsline{toc}{chapter}{List of Figures}
+\clearpage
+
+\listoftables
+\addcontentsline{toc}{chapter}{List of Tables}
+\clearpage
+
+\printglossary[title=Acronyms, toctitle=Acronyms]
+\clearpage
+
+\mainmatter
+
+\pagestyle{fancy}
+
+\chapter{Introduction}
+\label{chp:introduction}
+\input{Introduction/introduction}
+    
+\chapter{Literature Review}
+\label{chp:literature_review}
+\input{LiteratureReview/lit_review}
+    
+\chapter{Requirements Analysis}
+\label{chp:requirements_analysis}
+\input{Requirements/requirements}
+
+\chapter{Software Design \& Tools}
+\label{chp:software_design}
+\input{SoftwareDesign/software.tex}
+
+\chapter{Testing}
+\label{chp:testing}
+\input{Testing/testing.tex}
+
+\chapter{Implementation}
+\label{chp:implementation}
+\input{Implementation/implementation.tex}
+
+\chapter{Project Management}
+\label{chp:project_management}
+\input{ProjectManagement/project_management}
+
+\chapter{Evaluation}
+\label{chp:evaluation}
+\input{Conclusions/evaluation}
+
+\chapter{Conclusion and Future Work}
+\label{chp:conclusions_further_work}
+\input{Conclusions/conclusions}
+
+\pagestyle{empty}
+
+\appendix
+\input{Appendix/appendix}
+
+\backmatter
+
+\printbibliography
+\addcontentsline{toc}{chapter}{Bibliography}
+
+\end{document}
