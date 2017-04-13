@@ -1,6 +1,5 @@
 \documentclass[12pt, a4paper, twoside]{book}
 
-\usepackage[utf8]{inputenc}
 \usepackage[sorting=none,citestyle=ieee,backend=biber]{biblatex}
 \bibliography{bibliography}
 
@@ -51,6 +50,7 @@
 \input{acronyms}
 
 \pgfplotsset{compat=1.13}
+\raggedbottom
 
 \begin{document}
 
@@ -82,12 +82,13 @@
         \end{minipage}
         \begin{minipage}{0.4\textwidth}
             \begin{flushright}
-                \large \emph{Supervisors:}\\Arshad Jhumka,\\Hongkai Wen
+                \large \emph{Supervisors:}\\Dr. Arshad Jhumka,\\Dr. Hongkai Wen\\
+                \large \emph{Secondary Marker:}\\Dr. Ligang He
             \end{flushright}
         \end{minipage}\\[1cm]
         
-        \textit{\large CS407 Project Report}\\
-        {\large April 2017}\\
+        \textit{\large CS407 Group Project Report}\\
+        {\large Summer 2017}\\
         
         \vfill
     \end{center}
@@ -115,12 +116,6 @@
 
 \clearpage
 
-\chapter{Acknowledgements}
-
-\input{Acknowledgements/acknowledgements}
-
-\clearpage
-
 \tableofcontents
 \addcontentsline{toc}{chapter}{Contents}
 \clearpage
@@ -140,37 +135,41 @@
 
 \pagestyle{fancy}
 
-\chapter{Introduction}
-\label{chp:introduction}
-\input{Introduction/introduction}
+\chapter{Opening}
+\label{chp:opening}
+\input{Opening/opening}
+    
+\chapter{Background}
+\label{chp:background}
+\input{Background/background}
+    
+\chapter{Specification}
+\label{chp:specification}
+\input{Specification/specification}
     
 \chapter{Literature Review}
 \label{chp:literature_review}
 \input{LiteratureReview/lit_review}
-    
-\chapter{Requirements Analysis}
-\label{chp:requirements_analysis}
-\input{Requirements/requirements}
 
 \chapter{Software Design \& Tools}
 \label{chp:software_design}
-\input{SoftwareDesign/software.tex}
-
-\chapter{Testing}
-\label{chp:testing}
-\input{Testing/testing.tex}
+\input{SoftwareDesign/software}
 
 \chapter{Implementation}
 \label{chp:implementation}
-\input{Implementation/implementation.tex}
+\input{Implementation/implementation}
+
+\chapter{Testing}
+\label{chp:testing}
+\input{Testing/testing}
 
 \chapter{Project Management}
 \label{chp:project_management}
 \input{ProjectManagement/project_management}
 
-\chapter{Evaluation}
-\label{chp:evaluation}
-\input{Conclusions/evaluation}
+\chapter{Project Outcome}
+% \label{chp:evaluation}
+% \input{Conclusions/evaluation}
 
 \chapter{Conclusion and Future Work}
 \label{chp:conclusions_further_work}
