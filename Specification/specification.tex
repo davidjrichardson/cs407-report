@@ -16,50 +16,118 @@ This section introduces the problem space that this project aims to solve using 
         \item{\textbf{Implement a \acrshort{vr}-based architectural visualisation software.}} Through the use of off-the-shelf \acrfullpl{sdk} designed to create games, or by developing our own rendering and interaction engine specifically tailored to our problem domain.
         \item{\textbf{Allow the user to navigate the virtual world through walking or teleportation.}} The user must be able to move around the world such that they can manipulate or experience it at any point.
         \item{\textbf{Enable the creation and modification of walls, floors, windows, doorways, and roofs on multiple floors.}} To construct any outdoor or indoor spaces in a virtual world, the necessary tools do build basic structures are needed.
-        \item{\textbf{Provide mechanisms for saving, restoring, and distributing scenes.}} 
-        \item{\textbf{Implement the placement, movement, and removal of static items such as furniture.}}
-        \item{\textbf{Supply a number of standard assets that can be placed and manipulate.}}
+        \item{\textbf{Provide mechanisms for saving, restoring, and distributing scenes.}} Vast structures and spaces cannot be created in a single session and may need to be distributed amongst multiple artists, requiring- the ability to save, load, and distribute constructed scenes.
+        \item{\textbf{Implement the placement, movement, and removal of static items such as furniture.}} The visualisations produced by this project's solution will look very empty or otherwise inhospitable without furniture that can be placed and manipulated.
+        \item{\textbf{Supply a number of standard furniture assets that can be placed and manipulate.}} To provide a means to place furniture in a demonstration, standard furniture items such as tables and chairs should be shipped with the tool.
     \end{enumerate}
-
-    % TODO: List the abstract objectives of the problem
-    % TODO: Link to the project management session where appropriate
+    
+    These objectives are divided up into tasks, assigned to group members based upon individual skills, and timetabled using a Gantt chart in section~\ref{TODO}. In places these tasks were able to be parallelised, such as the development of standard furniture assets and the development of the wall creation and manipulation tools. The assignment of project roles within the group and the delegation of tasks to each member are further discussed at length within chapter~\ref{chp:project_management}.
 
 \section{Justification}
 
-    % TODO: Discuss the justification of the project with respect to its usefulness within the world of VR, Industry
+    With this project's aims being toward the creation of a \acrshort{vr}-based creative tool, the benefits of this project come from a number of areas. Firstly, the software created through this project can be used as stand alone software in industry, augmenting current creative processes. The concepts it brings forward can also be used and extended to create more powerful tool sets for architecture, similarly the concepts can be modified to take the tool to other areas in industry. The use of \acrshort{vr} as a form of \acrshort{hci} is also an area of research that is slowly gaining traction, thus this project's produced software can also be used as an example of possible ways that \acrshort{vr} can be used for productivity.
     
 \section{Stakeholder Analysis}
 
-    % TODO: Identification of possible stakeholders to the project are (include project supervisors?)
+    With the creation of a tool that is used to augment or even replace creative work flows involved with architectural visualisation, there are implications of its impact that must be discussed. This section will therefore formally outline the prospective stakeholders in this project, giving justifications for them.
+
+    The primary stakeholders within this project are the students that are undertaking the project, and the supervisors that are overseeing it and giving guidance. The students have a vested interest that the project runs smoothly and is delivered to the schedule that is set out in this document. The project's supervisors also have an interest in the project's success such that they may incorporate elements of the solution produced into their own works, or use it as a basis to begin research into a new and interesting area to them. Similarly, other primary stakeholders of this project are those that may benefit from the project's software; Architects and the clients of construction firms. Architects would be able to reduce the time spent on each project's visualisation stage, whilst clients would be able to reduce costs for the time taken. These clients would also be able to feed back into the process more, giving an end result that the client is overall happier with.
 
 \section{Feasibility Study}
 
-    % TODO: Discussion of how feasible the project is. Should analyse the problem scope, project scope, and analyse the finance and market. The management of the project should also be discussed
+    Even though this project's merits are justifiable, the implementation of the proposed solution does carry significant technical difficulty. Whilst \acrshort{vr} systems have come back to market and it is continuously growing, they are not common place and do come with a heavy initial investment cost. On top of this potential issue when trying to access hardware to test the software, the implementation of core functionality will use algorithms that are challenging to program. It is therefore important to analyse the feasibility of this project given the time, hardware, and other constraints. This analysis will be undertaken in this section.
     
     \subsection{Problem Scope}
     
+        With this project, its problem scope can be seen as the intersection of virtual reality software and 3-dimensional creative design tools. With this in mind, it is important to consider how far the proposed solution can be extended within this scope. With regards to virtual reality, its has already been explained within this and previous chapters. Despite this, there have already been multiple efforts to standardise hardware and software implementations: SteamVR~\cite{steamVRFAQ}, OSVR~\cite{osvrAbout}, and OpenVR~\cite{openVRAnnouncement}. However, for creative design tools there are a vast array of them from a number of vendors. These tools all provide a comprehensive base functionality used for not just architectural visualisation but 3D modelling as a whole.
+        
+        From this information it is apparent that the problem scope is vast. As a result of this, it is necessary to define careful limitations to it as to allow for a comprehensive solution to the problem given, whilst also limiting possible scope creep into the much larger problem domain. For the \acrshort{vr} aspect of this problem, the standards for \acrshort{vr} hardware and middleware mean that this project does not have to develop its own middleware and thus greatly reducing the possible scope for this side of the project. By implementing the 3D mesh creation and manipulation tools only applicable to VR, the project also addresses the possibility of becoming over extended within that part of the problem scope.
+    
     \subsection{Project Scope}
+    
+        With the problems scope already defined, it is also necessary to analyse the scope of the project itself to determine how far the project can be extended into the problem domain. With possible side effects of a poorly written solution ranging from unexpected behaviour in the form of bugs, to possible nauseating experiences through cybersickness~\cite{LaViola:2000:DCV:333329.333344}, it is imperative that the implementation of the solution is well tested. The range of tools that are applicable to architecture visualisation is also quite broad; simple polygon drawing to complex staircase generating can all be considered as part of this category. The list of tools to implement can be reduced to a minimal set for the project-specific requirements whilst still retaining the majority of the functionality a larger array of specialised tools will be able to attain. 
+        
+        The time constraints placed upon the project should also be taken into consideration; the use or adaption of already existing algorithms for the construction of walls, floors, and roofs will be necessary. To test and deploy the software produced, a \acrshort{vr} system will make use of one of two possible HTC Vive systems that have been made available to the project members.
     
     \subsection{Financial Analysis}
     
+        With this project the base requirement to test and deploy its solution will be the use of a virtual reality system, and a computer that matches the base hardware specifications that are listed by the \acrshort{vr} system manufacturer. As mentioned previously, this project has access to two complete HTC Vive \acrshort{vr} systems, provided by the universities Computing and Game Design societies. On top of this, the Computing society also has a computer with sufficient hardware capabilities to run the HTC Vive. As such, the financial constraints for this project are those of the budget(s) for both the Computing and Game Design societies at the university. Fortunately, only one \acrshort{vr} system will be required to run it, enabling the ability for a project member to borrow one of these systems from its owner to test changes at any time. Along side this, the implementation of the project will be undertaken using royalty-free licensed or open source software, prioritising open source where possible. Because of this, there will be no additional development costs. This also aligns well with the intention to distribute the project as free and open source.
+    
     \subsection{Market Analysis}
+    
+        For the project to be distributed to 3rd parties for their use, it is necessary for a license to be associated to the solution produced. For this project, it is intended to release any code produced under the GNU General Public Licence v3.0 (or later). This license itself stipulates that the project is open source, granting the user the freedom to use or change the software. The freedom to distribute these changes is granted to the user as well. The license also absolves the software creators of any responsibility if there are problems with the software developed. Since this makes the project non-commercial, this license protects the project members from potential threats whilst also allowing the appeasement of all project stakeholders. A side effect of the license is that it stipulates that any modifications to the project must also be released under the same GPL v3.0 license, making sure that the arch. vis. tool remains free for everyone.
     
     \subsection{Project Management}
     
+        To undertake a project such as the one proposed in this report, it is paramount that the challenges relating to project management such as administration, scheduling, and division of tasks are all addressed. It is therefore essential that the project is managed efficiently and that progress toward the end goal is assessed throughout the project's life cycle. An in-depth discussion around the management of this project, the issues that arose throughout it, and how they were dealt with is performed in chapter~\ref{chp:project_management}. With this in mind, there are a few challenges that the project's group members will face in the context of project management, as summarised below:
+        
+        \begin{itemize}
+            \item \textbf{Development methodology}. With the primary aim of this project encapsulating the development of software, it is important to consider a methodology for its development. This methodology must accommodate the small group size that this project has, the time they have, and also provide a means to tracking the progress of the project throughout the development process.
+            \item \textbf{Timetabling}. Meetings and deadlines for the project must be planned out and timetabled such that each member of the group is completely aware of what stage the project must be at and when in its life cycle. Other primary stakeholders and interested parties may also be informed about the project's progress on a regular basis to obtain guidance and appropriate advice.
+            \item \textbf{Group roles}. Within the group each member has distinct qualities that benefit specific areas within the project. As such, each member of the group must have a clear and distinct role. One group member must also take up the role of project manager, whom manages each other group member, their task lists, and managing the state of the project to make sure that it is delivered on time and within the resource limits.
+            \item \textbf{Management of project materials}. With a project there are a number of materials generated such as user documentation, source code, and asset files. It is necessary to ensure that these files are consistent throughout the work spaces for each project member. It is also imperative that a history of these files is kept in the event of file corruption or functionality regression.
+        \end{itemize}
+    
 \section{Requirements Analysis}
+\label{sec:requirements}
+
+    In this section the functional and non-functional requirements that were set out at the start of the project are presented. These requirements have been derived from the project objectives and are the necessary implementation milestones used to ensure that the project represents a comprehensive solution to the problem statement, as given earlier in this chapter. To distinguish between a functional and a non-functional requirement, a functional requirement represents a required aspect of the project that can be measured and tested with ease. A non-functional requirement is that which belongs to the category of requirements that cannot be measured because they are subjective. These non-functional requirements are still important to the project, regardless of being subjective and difficult to quantify. The hardware requirements for this project are also given in this section.
+    
+    \subsection{Hardware Requirements}
+    
+        The hardware requirements for this project are derived from the manufacturer's base requirements to run the HTC Vive virtual reality system~\cite{viveRequirements}, as shown in figure~\ref{fig:hardware}.
+        
+        \begin{figure}     
+            \begin{itemize}
+                \item NVIDIA GeForce GTX 1060 /AMD Radeon RX 480, equivalent or better
+                \item Intel Core i5-4590 or AMD FX 8350, equivalent or better
+                \item 4 GB RAM or more
+                \item Compatible HDMI 1.3 video output
+                \item USB: 1x USB 2.0 port or newer
+                \item Operating system: Windows 7 SP1, Windows 8.1, or Windows 10
+            \end{itemize}
+            
+            \caption{Hardware requirements for the HTC Vive and project software}
+            \label{fig:hardware}
+        \end{figure}
 
     \subsection{Functional Requirements}
     
-        % TODO: Create a table for these
+        The functional requirements for this project are shown in table~\ref{tab:fun_requirements}.
+    
+        \begin{center}
+            \begin{longtable}{ | c | p{0.75\textwidth} |  }
+                \caption{Table of functional requirements for the project software}\label{tab:fun_requirements}\\%
+                \hline Code & Requirement \\ \hline
+                    F1 & The tool will have a viewport through which the user can see a rendered world. \\  \hline
+                    F2 & Interaction is provided through a user interface centred around physical \acrshort{vr} controllers. \\\hline
+                    F3 & The world can be interacted with in a dynamic way, allowing the user to modify the environment by (eg.) adding, modifying or removing walls, building components, and objects. \\\hline
+                    F4 & Spaces in the world can be constructed in a 3D sandbox environment. \\\hline
+                    F5 & The tool must run with a minimum refresh rate of 90Hz on the minimum hardware specified in figure~\ref{fig:hardware}. \\\hline
+                    F6 & The tool will provide capabilities for saving, loading, and modifying building models or plans. \\\hline
+                    F7 & Runtime errors such as code faults should be handled gracefully and should not terminate the program where possible . \\\hline
+                    F8 & Environment characteristics such as time of day and light temperature should be modifiable. \\\hline
+            \end{longtable}
+        \end{center}
     
     \subsection{Non-functional Requirements}
     
-        % TODO: Create a table for these
+        The non-functional requirements for this project are shown in table~\ref{tab:nonfun_requirements}.
+        
+        \begin{center}
+            \begin{longtable}{ | c | p{0.75\textwidth} | }
+                \caption{Table of non-functional requirements for the project software}\label{tab:nonfun_requirements}\\%
+                \hline Code & Requirement\\ \hline
+                NF1 & The software should be intuitive to use, even for new users. \\  \hline
+                NF2 & Full documentation for setup and use of the software and environment should be provided. \\\hline
+                NF3 & Saved designs should be transferable between different supported computers. \\\hline
+        \end{longtable}
+    \end{center}
 
 \section{Project Deliverables}
     
-    % TODO: Explain all previous deliverables, what's happening in the future (demo) and the stuff that's being handed in with this report
+    Throughout this project's life cycle, numerous deadlines were set for which the project will be required to deliver documentation, the finalised product, or presentations. The original specification for this project was submitted in the week 4 of term 1, wherein the project is introduced, several objectives and requirements elicited, and a plan of action drafted. In week 10 of term 1, a poster presentation was given by the group to the project supervisors and assessors, whilst also welcoming anyone from the department to watch. Whilst there were no deliverables scheduled for term 2, this report was submitted in week 1 of term 3, along with the source code for the project and its user manual. A live demonstration and final presentation was given in week 4 of term 3, in which a demonstration of the completed project solution was given to the project supervisors and assessors. On top of these departmental deliverables, several deliverables were set by the group internally. These deliverables coincided with group meetings with the project supervisors to give frequent and regular updates as to the project's progress, as discussed in detail in chapter~\ref{chp:project_management}.
 
 \section{Alterations from the Original Specification}
 
-    % TODO: A large part of the specification was re-worked, this is explained in the project management section
+    The original specification, the group originally consisted of 4 project members. This fourth member left the project at an early point in its development and also had considerable experience with the tool set selected for the project. Because of this, a number of the requirements for the project were re-evaluated to ensure it remained feasible within the group's capabilities, which reduced the overall complexity of the project though the relative complexity remained roughly unchanged. The loss of a group member also brought about changes to group role assignment and the timetabling of the project. How the project dealt with the loss of a project member with significant technical ability is discussed in chapter~\ref{chp:project_management}. 

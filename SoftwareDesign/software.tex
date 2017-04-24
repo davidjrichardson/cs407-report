@@ -1,0 +1,26 @@
+\section{Engine}
+Though VR is still in its infancy, there are a number of engines in existence which provide integration with VR platforms. At this time the two most popular engines are Unity and Unreal. Both of these are mature engines for video game development, though they are also used for other graphics-heavy applications. Their heritage as mature game enignes means they have extensive support for heirarchical object models, graphics, and vertex meshes, as well as control over the rendering pipeline - essential for complex VR tasks. 
+
+There are other VR engines - Fabric Engine is one which has been designed from the ground up with VR tasks in mind. These engines are more recent and do not have as much support as their game engine counterparts. Other mature game engines with VR support include LibGDX, a cross-language engine, and CryEngine. The VR support with these examples is incomplete, and do not provide sufficient reliability.
+
+Unity and Unreal Engines are comparable in terms of complexity and features. However during preliminary testing we found that the Unreal engine's API was designed around its Blueprints feature, and that it was simpler to directly write code in Unity using C\# and the Unity API. We also found that the lighting model (especially Real-Time Global Illumination) was easier to manipulate in Unity, something integral to our specification for the project. As a result the system has been designed with Unity and the Unity API at its core.
+
+\section{Design Outline}
+
+Our initial goal was to use the Model-View-Controller pattern as a base for the project's design. The Unity engine already provides the Control portion - the majority of the input is provided by the static Input API. Therefore we designed the Model and View as separate entities; in this way, our code implements how the Control can bring about state transitions in the Model, and the rendering pipeline maps from the Model to the View.
+
+%Insert MVC diagram here
+%Model: Abstract representation of Building, Objects
+%View : Rendering using Models, Dynamic Meshes, Lighting
+%Controller: Static APIs, maybe set dynamically for complex VR input handling
+
+Invariably with complex programs, there is some diffusion between the View and the Controller. For instance, our design required that the user be able to point at some ``in-world" objects to interact with them. Both the VR handsets and the objects are part of the View in this case, but they change how the Control acts. Our final implementation maintained the MVC pattern as described, with some interaction between the View and Control.
+
+% I would argue that unity handles all the processing in the View layer. You can consider all the GameObjects modified within the Update() function to be models. Rendering happens later on in the cycle after all the Update() calls have been made and it uses the current state of GameObjects to render them (see: https://docs.unity3d.com/Manual/ExecutionOrder.html). By looking at it like this we can say we stuck to the MVC model more clearly as we have only implemented the controllers that edit the models in the controller layer. -J
+
+%Design Goals
+%Menus easily accessible
+%Everything in-game, no abstract HUD
+%Intuitive use
+%Principal Objects
+%Prefabs
