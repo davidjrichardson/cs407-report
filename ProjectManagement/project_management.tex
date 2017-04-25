@@ -12,25 +12,132 @@ When undertaking any project, several challenges may come to light and subsequen
 
     \subsection{Software Development Methodology}
     
-        As with any software development project, it is necessary to consider enacting an appropriate development methodology. If not, the lack of effective practices can lead to unpredictable functionality, poor code quality and documentation, and repeated error. Software development methodologies range from the rigid-structure, document centric waterfall approach to more agile methods that prioritise adaptability to requirement changes and code quality.
-    
-        % We are a small group w/ timetables that are changing frequently -> need something flexible
-        % A small number of members -> high likelihood of group work being delayed -> documentation needed to allow for members to pick up
-        % Project requirements might change through user or supervisor feedback -> methodology needs ability to change requirements
-        % We used agile 
-
+        As with any software development project, it is necessary to consider enacting an appropriate development methodology. If not, the lack of effective practices can lead to unpredictable functionality, poor code quality and documentation, and repeated error. Software development methodologies range from the rigid-structure, document centric waterfall approach to more agile methods that prioritise adaptability to requirement changes and code quality. With a small project group size of just 3 people who have fluctuating schedules week-upon-week and thus time that can be dedicated to project work, a variation of the scrum agile methodology was chosen. Core concepts of an agile methodology were retained like the frequent delivery of working software, welcoming continuous changes in requirements, and daily cooperation between developers~\cite{martin2003agile}. Other methods such like waterfall were considered inappropriate within the context of this project due to their inflexibility with changing requirements, or for being geared toward more enterprise-like group sizes where teams can be 10s to 100s of developers in size.
+        
+        With the flexibility of development introduced by the an agile methodology, internal milestones for software development were put in place with the flexibility to cater for changes in requirements. The group structure also reduced the focus on sprint-based development that lies within traditional scrum-based methods due to there being no emphasis on delivering functional products to the project stakeholders on a regular basis. The group structure consists of one development team of 3 individuals, opting to replace frequent (typically daily) scrum periods with sporadic development sprints that are encapsulated by discussion between development team members.
+        
+        With some parts of the project being independent from others, it was possible to use the scrum methodology effectively to allow two members to complete these tasks simultaneously. Because of this, any iterations upon these independent tasks was also possible without as much planning as would be necessary if they were dependent, helping the fact that the project has a small time frame. Frequent meetings with project supervisors generated feedback that could be acted upon within a short time frame thanks to the agile method that was adopted. It is also important to recognise that the agile method does carry the danger that sufficient documentation of a code base will not be created, thanks to its code-centric approach to development. This affects teams that have members that are constantly in flux. Fixed teams that do not change are unlikely to run into this problem, though it should be made imperative that documentation is monitored to avoid the documentation becoming stale.
+        
 \section{Team Structure}
+
+    As mentioned in previous sections of this report, the project group consists of 3 members, originally starting with 4. With such a small group of people, it was imperative that the work load was balanced as equally as possible. With the loss of a group member at an early stage in the project, it was also necessary that task distribution was also done intelligently to account for the loss in expertise. Work was also divided in a way to play to each member's individual strengths. With 3 group members it was impractical to try split work between at least two people, but a focus on clear and concise documentation meant that if a group member had to fill in for another, they could swiftly get up to speed with the work. Whilst there are obvious benefits to having a larger number of people in a group, there are also benefits to small groups; organisation is simpler, the allocation of tasks is straightforward, and each group member is more aware of the work they have been assigned. A smaller group does leave a disadvantage when it comes to the sheer number of developers available to work on the project at any one moment. The individual members of this project and their assigned roles are shown below:
     
-    % State who did what in the team, describing briefly what they did
+    \begin{itemize}
+        \item \textbf{Alex Dixon - Mesh generation, UI, and software back end architect.} Responsible for the primary mesh generation algorithms for walls, floors and roofs, the user interface, and the abstract representation that is used to generate the meshes.
+        \item \textbf{David Richardson - Project manager and environment manipulation.} Responsible for the distribution of tasks between group members and managing deadlines, as well as the implementation of environment lighting manipulation functionality.
+        \item \textbf{Jakub Zawadzki - Tools developer and 3D asset builder.} Responsible for the architecture of the tool subsystems and the construction and exporting of 3D assets for inclusion with the final software deliverable.
+    \end{itemize}
+    
+    Whilst this list is not exhaustive, it serves as a good demonstration of the group's ability to allocate tasks to each member and for them to take responsibility for them.
 
 \section{Time \& Task Management}
 
+    The effective management of the time allocated to a project is necessary to ensure it is completed within the given time constraints. Because of this it is necessary that tasks are identified and scheduled for completion in an appropriate time frame. Figure~\ref{fig:project_timetable} gives a Gantt chart that gives an outline of the task break down of the project, the scheduling of those tasks, any inter-task dependencies, and important internal milestones for the group throughout the lifecycle of the project.
+    
+    \begin{sidewaysfigure}
+		\centering
+		\begin{ganttchart}[
+			x unit=5.25mm,
+			hgrid,
+			vgrid,
+			newline shortcut=true,
+			time slot format=simple,
+			bar/.append style={fill=Aquamarine!25},
+			bar label node/.append style={align=right},
+			milestone inline label node/.append style={right=3mm},
+			milestone/.append style={fill=RubineRed!50},
+			today=30,
+			today rule/.style= {red, ultra thick, dashed},
+			today label={Product delivery},
+			link bulge=.5,
+			link/.append style={thick}
+		]{1}{31}
+			\gantttitle{Term 1}{10}
+			\gantttitle{Christmas}{4}
+			\gantttitle{Term 2}{10}
+			\gantttitle{Easter}{5}
+			\gantttitle{Term 3}{2} \\
+			\gantttitle{Time (in weeks)}{31} \\
+			\gantttitlelist{1,...,31}{1} \\
+			\ganttbar[name=feasibility]{Feasibility study}{1}{2} \ganttmilestone[inline=true]{First prototype}{7} \ganttmilestone[inline=true]{Final prototype}{20} \ganttnewline
+			\ganttbar[name=concept]{Concept design}{3}{4} \ganttmilestone[inline=true]{Second prototype}{10} \ganttmilestone[inline=true]{Feature freeze}{25} \ganttnewline
+			\ganttbar[name=uidesign]{UI development}{6}{8} \ganttbar[name=uidesign2]{}{11}{13} \ganttbar[name=uidesign3]{}{23}{24} \ganttnewline
+			\ganttbar[name=qa]{Quality assurance}{9}{10} \ganttbar[name=qa2]{}{14}{15} \ganttbar[name=qa3]{}{20}{22} \ganttbar[name=qa4]{}{27}{29} \ganttnewline
+			\ganttbar[name=sysdev]{Systems development}{6}{9} \ganttbar[name=sysdev2]{}{12}{15} \ganttbar[name=sysdev3]{}{18}{19}
+			\ganttnewline
+			\ganttbar[name=assets]{UI development}{16}{17}
+			\ganttnewline
+			\ganttbar[name=bugfixes]{Bug fixing}{25}{29}
+			\ganttlink{feasibility}{concept}
+			\ganttlink{concept}{sysdev}
+			\ganttlink{concept}{uidesign}
+			\ganttlink{sysdev}{sysdev2}
+			\ganttlink{uidesign}{qa}
+			\ganttlink{qa}{uidesign2}
+			\ganttlink{uidesign2}{qa2}
+			\ganttlink{qa}{sysdev2}
+			\ganttlink{qa2}{sysdev3}
+			\ganttlink{qa3}{uidesign3}
+			\ganttlink{uidesign3}{bugfixes}
+			\ganttlink{sysdev2}{sysdev3}
+			\ganttlink{sysdev3}{bugfixes}
+			\ganttlink{sysdev3}{qa3}
+		\end{ganttchart}
+		\caption{Project timetable from week 1 term 1 to week 2 term 3}
+		\label{fig:project_timetable}		
+	\end{sidewaysfigure}
+	
+	Along with the development of the software for the project, its deliverables also require scheduling to make certain that they are delivered on time without error. Figure~\ref{fig:document_timetable} shows the timetable breakdown of work toward these deliverables up to the point of hand in for this report.
+		
+	\begin{sidewaysfigure}
+	    \centering
+	    \begin{ganttchart}[
+			x unit=5.25mm,
+			hgrid,
+			vgrid,
+			newline shortcut=true,
+			time slot format=simple,
+			bar/.append style={fill=Aquamarine!25},
+			bar label node/.append style={align=right},
+			milestone inline label node/.append style={right=3mm},
+			milestone/.append style={fill=RubineRed!50},
+			today=30,
+			today rule/.style= {red, ultra thick, dashed},
+			today label={Product delivery},
+			link bulge=.5,
+			link/.append style={thick}
+		]{1}{31}
+	        \gantttitle{Term 1}{10}
+			\gantttitle{Christmas}{4}
+			\gantttitle{Term 2}{10}
+			\gantttitle{Easter}{5}
+			\gantttitle{Term 3}{2} \\
+			\gantttitle{Time (in weeks)}{31} \\
+			\gantttitlelist{1,...,31}{1} \\
+			\ganttbar[name=spec]{Specification}{2}{3} \ganttmilestone[inline=true]{Specification hand in}{4} \ganttnewline
+			\ganttbar[name=progress]{Progress presentation}{8}{9} \ganttmilestone[inline=true]{Progress presentation hand in}{10} \ganttnewline
+			\ganttbar[name=finalreport]{Final report}{23}{30} 
+	    \end{ganttchart}
+	    \caption{Documentation timetable from week 1 term 1 to week 2 term 3}
+	    \label{fig:document_timetable}
+	\end{sidewaysfigure}
+		
 \section{Progress Management}
 \label{sec:progress_management}
 
-    \section{Meetings}
+    \subsection{Meetings}
     
-    \section{Internal Milestones}
+        Regular meetings were scheduled between the project group and supervisors every fortnight. These meetings were used to update the project supervisors on the progress of development, any successes, changes to the projects requirements, and any challenges that the group has faced recently to get advice on how to tackle them. Emergency meetings were also scheduled when urgent matters arose within the project, such as the loss of a group member as explained later in this chapter. Outside of office hours, contact with the project supervisors was maintained using e-mail.
+        
+        General group meetings were also arranged weekly to discuss project progress, identify any new or remaining tasks for the current stage of the project and assign these tasks to group members, and re-arrange or re-assign tasks to improve the timetabling of the project. Discussion between members about software design and review of new code was performed regularly to preemptively eliminate potential issues. Any research that had been done since the last meeting was also shared between group members to aid the understanding of the code base further in the event of task re-assignment. These meetings consisted of all 3 group members and would typically be performed within the departmental computer labs, where work could be demonstrated on laptops or departmental computers. Some meetings were also used to test prototype software, and as such required all group members to be present to help set up and operate the virtual reality system.
+        
+    \subsection{Weekly Project Review}
+    
+        As per the development methodology chose, at each weekly meeting a review of the project's current state was performed with respect to its timetable, as shown in the Gantt chart in figure~\ref{fig:project_timetable}. This review consisted of individual member updates as to the progress of their assigned tasks. By combining the individual progress of each member, the overall state of progress for the project could be ascertained. A list of things that are to be completed was constructed at each meeting, for completion by the next.
+    
+    \subsection{Internal Milestones}
+
+        With the group meetings and weekly reviews, a number of internal milestones were set to work toward. These milestones represented a state in the project's development that meant the software met a number of the project requirements. A few of these milestones are displayed in the Gantt chart in figure~\ref{fig:project_timetable} as the prototype milestones and the feature freeze. Some of these milestones also served as a way to prevent feature and scope creep of the project by preventing the introduction of new features after a specific point in the project's life cycle.
 
 % The bs section about rally, if it's too much we can always get rid of it
 \section{Collaboration Tools}
@@ -46,6 +153,20 @@ When undertaking any project, several challenges may come to light and subsequen
     
         The tool was used to create a list of requirements needed for the project in the form of user stories and collectively distributing those stories between team members. Each individual team member could then divide the user story into a series of tasks that needed to be completed to fulfil the requirement and work on those tasks individually. The team members could also determine time spend on completing a given task, which was helpful in distributing the amount of work between team members in a fair way.
 
+\section{Risk Management}
+
+    % TODO: Read over these and add any more risks
+    \begin{description}[style=nextline]
+            \item[\textbf{VR headset access}]
+                The primary concern for development and testing is access to the Virtual Reality hardware. The hardware itself is expensive and therefore the group is unable to source a bespoke set. However, we have mitigated this risk by obtaining permission to access three different sets of the same hardware (the HTC Vive) from the Warwick Manufacturing Group, Computing Society and the Game Design Society. This should allow us to use at least one of these at any given time.
+            \item[\textbf{Illness and absence}]
+                The risk of team member absence is always great. A key member being unable to attend meetings or development sessions may hamper development significantly. The primary method of mitigating this concern is to reduce the amount of restraint and responsibility given to any one person - while they may have areas of concern all team members should be aware of the state of all constituent parts.
+            \item[\textbf{Conflict of Interest}]
+                Some team members may have differing views on the driving forces and underlying ideals of the design. The impact of this risk is reduced by giving different people ownership of different constituent parts; the individual areas are arbitrated by the listed person. The areas are compatible enough that a difference between two ideals will not restrict development.
+            \item[\textbf{Feature creep}]
+                The project itself is intentionally open-ended which leaves room for feature creep, the addition of unnecessary or out-of-scope features which may make the final product more bloated. The implementation of a \emph{feature freeze} (no further feature additions) at the end of Project Week 24 will limit the spread of any feature creep.
+        \end{description}
+
 \section{Project Challenges}
 
     \subsection{A Project Member Leaving}
@@ -54,14 +175,15 @@ When undertaking any project, several challenges may come to light and subsequen
     
     \subsection{Development}
 
-\section{Risk Management}
-
-    % TODO: Paste the risk matrix for the project in here
-
 \section{Legal, Social, Ethical, and Professional Issues}
+
     \subsection{Legal Issues}
     \label{sec:legal}
         All the Unity assets available through the Unity Asset Store are distributed under the Asset Store Terms of Service and EULA~\cite{unity:terms}. Those terms allow the assets obtained through the store to be used and distributed as integrated part of the interactive media.
+        
+    \subsection{Social Issues}
     
     \subsection{Ethical Issues}
         Quite recently Facebook announced their new tool that is designed around virtual reality called Facebook Spaces~\cite{facebook2017}. The tool is as extension of the social network and allows people to meet up virtually and interact with each other using their virtual reality avatars. As the article mentions, the tool has received a lot of negative criticisms for promoting antisocial behaviour by discouraging people from communicating in real life. This may be a relevant feedback to us, since similar opinions may be said about a tool that is designed to use in a professional environment. Using our system makes it more difficult for multiple users to cooperate on one project, unless they are all wearing their own head sets. This can also be viewed as a tool that encourages people to interact virtually instead of doing so in real life.
+        
+    \subsection{Professional Issues}
