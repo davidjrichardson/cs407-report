@@ -1,6 +1,6 @@
 \subsection{Implementation Outline}
 
-Unity's design is based around Scenes. A Scene is a collection of all the objects which will impact the operation of the program. Unity has a strict "Component-Object Model", such that anything which is to act is an Object, and its operation is controlled by Components, which are scripts. There are a number of ways of inserting Objects into a Scene, and all of them are employed here.
+Unity's design is based around Scenes. A Scene is a collection of all the objects which will impact the operation of the program. Unity has a strict "Component-Object Model", such that anything which is to act is an Object, and its operation is controlled by Components, which are scripts written in either JavaScript or C\#. There are a number of ways of inserting Objects into a Scene, and all of them are employed in the implementation of the project.
 
 \subsubsection*{Principal Objects}
 The simplest way an Object is added to a scene is directly within the Unity editor. If this is done, the object will be within the Scene from the moment it is loaded. Any attached Components which have a \verb|Start()| function will have that function called on load. Our design had a number of Principal Objects:
@@ -9,7 +9,7 @@ The simplest way an Object is added to a scene is directly within the Unity edit
     \item \textbf{Player} - this Object contained the Camera, which decides where in the world to render, and the VR handsets. Components attached to the Player include dynamic input (detecting \verb|justPressed| and \verb|justReleased| states), and triggers for changing the current floor or bringing up the Menus.
     \item \textbf{Sun} - this Object represents the ambient lighting in the world. Changing properties on the Sun also changes the ambient lighting properties. This is an in-built feature of Unity.
     \item \textbf{Building} - contains both the Model (contained in scripts called \verb|Building|, \verb|Level|, ... ) and the View (\verb|BuildingRender|, \verb|LevelRender|, ... ). 
-    \item \textbf{Blueprint} and \textbf{Grass} - these two are large flat objects which Unity calls Planes, though they are bounded rectangular meshes. They move in the XZ-plane with the player, to emulate an infinite plane. One represents the ground and remains at $y=0$. The other represents the floor of the current level and is located at $y=2 \times currentFloor$. The latter is used for raycasting when determining where the user is pointing.
+    \item \textbf{Blueprint} and \textbf{Grass} - these two are large flat objects which Unity calls Planes, though they are bounded rectangular meshes. They move in the XZ-plane with the player, to emulate an infinite space. One represents the ground and remains at $y=0$. The other represents the floor of the current level and is located at $y=wallHeight \times currentFloor$. The latter is used for raycasting when determining whether the user is pointing at the ground (for drawing floors and walls).
 \end{itemize}
 
 \subsubsection*{Pre-built Objects}
@@ -26,49 +26,230 @@ Objects loaded in as Prefabs include:
 
 A Dynamic Object is one which is designed and instantiated at run-time. This tends to be best used for objects which are primarily one mesh, the size and shape of which is determined entirely by the user.
 
-This technique is used mainly for the raw architecture - the walls, floors, and roofs. When one of these is to be added to the Scene, a plain GameObject is instantiated, and the Mesh is created in the abstract. It is then attached to a MeshRenderer and MeshCollider, which control the appearance and behaviour of the mesh. Any relevant Components can then be added, and the parent object of the architecture the \verb|Building| Object) can be set.
+This technique is used mainly for the raw architecture - the walls, floors, and roofs. When one of these is to be added to the Scene, a plain GameObject is instantiated, and the Mesh is created in the abstract. It is then attached to a MeshRenderer and MeshCollider, which control the appearance and behaviour of the mesh. Any relevant Components can then be added, and the parent object of the architecture (the \verb|Building| Object) can be specified.
 
-\section{Implemented tools}
+\section{Architectural Tools}
 \label{sec:tools}
-To provide the full functionality, a number of tools were implemented hat the user can switch between during the running of the app. There are a total of 10 tools implemented that cover all the functionality of the app (except of loading and saving the scene which is handled through a separate menu):
+
+\subsection{Tools Menu}
+
+The Tools menu is implemented as a three-dimensional Prefab object. This allows it to interact seamlessly with the Laser pointers attached to the controllers. Each item on the Tools menu represents a different tool, all of which are outlined in Section \ref{sec:alltools}. Every tool is designed in such a way as it only requires one controller to operate. This makes usage intuitive and simple\textsuperscript{NF1}. This means that any tool can be attached to either controller; they both act identically and independently. The user can also have two tools active at any one time, or if necessary they could use only one controller\textsuperscript{NF1}.
+
+\subsection{Tools}
+\label{sec:alltools}
+
+To provide the full feature set, a large number of tools were implemented which the user can switch between during the running of the application. There are a total of 10 tools implemented which cover all the functionality of the app (except of loading and saving the scene which is handled through a separate menu).
+
+\subsubsection*{Add Wall}
+The operation of this tool is akin to drawing a line in many \acrshort{cad} programs. Every wall is internally represented as a line segment; to indicate a new wall, the user aims their controller at a point on the ground, depresses the trigger, and releases once they are pointing at the "end point" of the wall. By design all walls are the full building height; once the wall's direction and length are defined the wall appears as part of the Render in three dimensions\textsuperscript{F3,F4}.
+
+\subsubsection*{Delete}
+This general purpose tool can be used to delete any item in the world. This includes walls, floors, roofs and placed objects. To delete an object the user points their controller at it, which produces a red wireframe outline around that object. When the trigger is pulled the object is deleted. For floors, roofs and objects this is a matter of calling \verb|Destroy()| on the relevant \verb|GameObject|. For wall segments, the system determines which segment of wall the user is pointing at and removes it from the graph, updating the Render in the process.
+
+\subsubsection*{Add Doorway / Window}
+This tool creates openings in placed wall segments. See Section \ref{sec:csg} for more information on the operation of this tool. By pressing the controller Pad, the user can switch between placing Doorways (large, vertical holes) and Windows (horizontal holes). When pointing at a wall, a yellow wireframe outline appears to show the user where the Hole would appear. The tool is intelligent and requests information on-the-fly from the Building graph to determine whether the current pointed location is a valid one for a new Hole; if not, the outline turns red and attempts to place the Hole will fail.
+
+\subsubsection*{Draw Floor}
+Floors in the software are arbitrary polygons rather than unit squares or defined rectangles. This allows for interesting patterned floors and accurate placement along angled walls. To draw a floor, the user pulls the trigger while pointing at each "corner" in turn on the floor. This defines the vertices of the floor polygon, which is then instantiated as a 2d mesh with a material on press of the Pad.
+
+\subsubsection*{Draw Roof}
+Floors and roofs are created with the same underlying polygonal drawing mechanics. However on completion, instead of a flat 2D plane the tool produces a polygon with a 3D border surround, similar to real-world flat roofs. This border overhangs the walls it sits on, giving a realistic feel. 
+
+\subsubsection*{Add Object}
+While the Add Object tool is selected, the user can cycle through available Objects by pressing the Pad. A translucent model of the current Object is placed at the pointed location, and when the trigger is pulled a full textured model is placed there. See Section \ref{sec:objects} for more information about how Objects are handled in the application.
+
+\subsubsection*{Select Object}
+Objects can be moved with the Object Select tool. Clicking on an object will make that object active and translucent, as if the user were placing it for the first time. This means that the user can quickly fix any mistakes in placement. The rotation of objects can be changed by altering the pose of the controller, as the object's rotation around the vertical axis is locked to that of the controller's rotation.
+
+\subsubsection*{Weather}
+The Weather tool\textsuperscript{F8} lets the user change the lighting setup. Pressing the pad switches between the three colour channels (Red, Green and Blue). In this way the user can set the ambient light color to any RGB value. On the desktop the channels are controller by the mouse wheel; in VR the height of the controller is used as an analog slider to alter the value. There is a fourth channel; This controls the ``time of day", i.e. the position of the Sun in the sky. The ``time" can be set to any value, including night. See Section \ref{sec:lighting} for more information.
+
+\subsubsection*{Teleport}
+This tool is the simplest but one of the most useful; by pointing at a location on the ground and pulling the trigger, the user will move to that spot. This is essential for navigation in the VR control scheme - the virtual space is bounded by the room setup. Additionally, smooth movement controls have been shown to induce nausea in some situations, so direct movement is more accessible and intuitive\textsuperscript{NF1}.
+
+\subsubsection*{Paint}
+Another general purpose tool, similar to the Delete tool. It is capable of painting walls, floors and objects. While this tool is selected, a small textured orb hovers over the attached controller. This orb's material is the current ``paint". By pointing at an object, floor, roof or wall and pulling the trigger, the ``paint" is applied to the target. If the target has several constituent parts, such as a roof, then only the relevant part is painted --- this allows for outer and inner sides of the same object to be painted in different colors. There are some situations where the object cannot be painted correctly owing to the underlying libraries used; see Sections \ref{sec:csg} and \ref{sec:wallrender} for more information.
+
+
+\section{The Graph Model}
+\label{sec:graph}
+
+As mentioned in Section~\ref{sec:design}, it was a design goal to keep the Model and the View separate where possible. To this end the building was represented internally in abstract data structures, without using Unity's Component-Object model. However, when changes were made to the internal representation, the View onto this data (the World Objects) were added, removed or modified appropriately. This ensured that the Model and the View were always synchronised, without interference between the two systems.
+
+Each world has exactly one \verb|Building|, which is a top-level principal object. This \verb|Building| contains both the Render and the Model, and is in charge of keeping them synchronised. The \verb|BuildingGraph| is a script which contains a list of \verb|Level|s. There is one Level for each horizontal slice of the world. Each horizontal slice is the height of one wall, which is statically defined as 2 meters in the \verb|Building| script.
+
+Each Level is a simple Graph representation of the floor it is on. Notably the Level only manages the Wall architecture; Floors, Roofs and Objects are managed as Unity components and are not dealt with as part of the Graph model. The Graph model comprises of a list of Walls and wall Endpoints. In the graph, the Walls are the edges and the Endpoints are the vertices. Any two walls which share a vertex are considered to be adjacent. Whenever a wall is added, the wall is added to the Walls list and the relevant endpoints are located in the Endpoints list (or created if they are not present). Using this representation could potentially cause a memory leak; by repeatedly placing and deleting walls the user could grow the Endpoints list arbitrarily. This problem is avoided by keeping a total number of references within each Endpoint object. When that reference count reaches 0 on deletion of all surrounding walls, that endpoint is also removed from the Endpoints list. This helps to keep operations efficient\textsuperscript{F5}.
+
+We can infer some useful properties about the graph. In particular, we know that every vertex is at least of order 1 (there are no isolated vertices). This is because whenever a wall is created, endpoints are created to attach to it; Whenever all surrounding walls are removed, so is the vertex. There is no way to create endpoints in the abstract. It is theoretically possible to create endpoints which are arbitrarily close together (subject to IEEE 754 floating point arithmetic); this is not considered to be a problem, as floor snapping (see Section~\ref{snap}) tends to prevent this from happening unintentionally.
+
+\begin{figure}
+\tikzstyle{every node}=[draw=black,thick,anchor=west]
+\tikzstyle{selected}=[draw=red,fill=red!30]
+\tikzstyle{optional}=[dashed,fill=gray!50]
+\begin{tikzpicture}[%
+  grow via three points={one child at (0.5,-0.7) and
+  two children at (0.5,-0.7) and (0.5,-1.4)},
+  edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]
+  \node {BuildingGraph}
+    child { node {Level}
+        child { node {Wall} }
+        child { node {Wall} }
+        child { node {...} }
+    }		
+    child [missing] {}
+    child [missing] {}
+    child [missing] {}
+    child { node {Level} 
+    child { node {...} } };		
+\end{tikzpicture}
+\end{figure}
+
+The graph representation allows for some useful properties. For one thing, adding and removing walls is a simple operation on the Model. This keeps a separation from the very complex recalculation of the level geometry in the Render. We can also poll the graph for interesting properties of the Level. For example, by detecting Cycles in the level, tools could be modified to automatically generate ceilings, roofs and floors. This was not implemented in the proof-of-concept version of the software provided here to prevent feature creep. The graph model is used extensively in the geometry generation algorithm detailed in Section~\ref{sec:mesh}.
+
+\section{Wall Rendering and Dynamic Meshes}
+\label{sec:mesh}
+
+The naive approach to rendering walls would be to create one Wall object for every wall in the graph. However, this causes visual artifacts when the walls are three dimensional. In order to solve this problem, it was necessary to construct the level mesh procedurally.
+
+Using the graph model outlined in Section~\ref{sec:graph} as a basis, it was possible to write a custom algorithm to determine the shape of the mesh. The generator was fully encapsulated within the \verb|MeshGenerator| class; this class provides static functions which return two Mesh objects, one for rendering and one for collisions. The steps of the generation are as follows:
 
 \begin{enumerate}
-    \item \textbf{Add Wall} - creates new segments of wall.
-    \item \textbf{Remove Wall} - removes segments of walls, floors and objects from the scene.
-    \item \textbf{Add Doorway} - creates cut-outs in the walls to create a space in which a door can be places.
-    \item \textbf{Weather} - changes the lightning in the scene to simulate different times of day and different weather.
-    \item \textbf{Draw Floor} - creates flat areas of arbitrary size that represent the floor segments.
-    \item \textbf{Paint Floor} - changes the texture on a selected floor segment.
-    \item \textbf{Add Object} - adds new objects to the scene.
-    \item \textbf{Teleport} - teleport the user to the pointed location.
-    \item \textbf{Paint Walls} - changes a colour of the wall.
+\item Generate the top-down polygon view of the Level with \verb|GenPolygons()| (described below).
+\item For every edge:
+\begin{enumerate}
+\item Project the start and end positions up by the wall height to form two new vertices.
+\item Connect two triplets of these vertices to form two triangles, which together form the face of the wall.
+\end{enumerate}
+\item Generate the ``tops" and ``bottoms" of each connected component as closed polygons.
 \end{enumerate}
 
-The user can change the tool they are using, by summoning the tool menu and selecting the new tool they want to start using. The tools are not linked to any specific hands, which means the user can arbitrary assign tools to different hands depending on the task they are doing.
+The operation of GenPolygons is as follows:
+\begin{algorithm}[h]
+\LinesNumbered 
 
-\section{Object import}
-The system was designed to allow the users to easily import their own furniture and other kind of objects into the program The system itself contains no hardcoded objects that can be placed in the scene, instead the user can place specially created files in \verb|main_Data\AssetBundles| directory in the installation location to import them into the program at runtime. This is implemented using Unity's AssetBundles~\cite{unity:assetbundle}, which are designed exactly for the purpose of storing a Unity files in a format that can be loaded by the application at run time.
+\TitleOfAlgo{GenPolygons}
+\KwData{A set $W$ of walls and $E$ of Endpoints.}
+\KwResult{A set $P$ of polygons (vertex lists).}
+
+Initialise $P := \emptyset$.
+
+For every $e \in E$, construct a \textbf{clockwise ordered} list of incident walls $W_e$.
+
+For every $e \in E$, initialise a ``visited" list, $V_e = W_e \times \{false\}$.
+
+\While{there exists an endpoint $e$ which is unvisited from an incident wall $w$}{
+
+Start a new empty polygon in P.
+
+\Repeat{e is reached again}{
+Set $V_e(w) := true$\;
+
+Add a new vertex to the current polygon, $p$. If the junction is singular (i.e. the end of a wall with no connecting walls), the vertex will be exactly $wallThickness / 2$ away from the wall. Otherwise it will be at a distance dependent on the two incident walls to that vertex (see Section~\ref{sec:meeting}).
+
+Set $e$ to the ``next" vertex. This will be the ``other" end of the next wall, or if the junction is singular it will be the other side of the same wall.
+}
+
+}
+\end{algorithm}
+
+The GenPolygons algorithm relies on a few tricks of traversing graphs. One is that the total number of times each vertex must be visited to capture every edge is equal to the number of edges incident to that vertex. In fact, the algorithm stores \textit{two} Visited lists per vertex, one for entering and one for exiting, from each edge. In this way it is possible to ensure that both sides of every wall are covered. The algorithm is able to handle cycles in the graph (i.e. enclosed rooms), as the inside and outside are treated as different polygons. Polygons are traced clockwise, except for fully internal cycles which are traced counterclockwise, by the nature of the algorithm. The order itself does not affect rendering. 
+
+\subsection{Incident walls}
+\label{sec:meeting}
+The GenPolygons() algorithm uses some decisions that were made during the Design step. In particular, the walls were designed to be the same thickness throughout and should be angular rather than rounded. It was decided that when two walls were to meet at a corner, rather than mitre the edge (cut or round off the sharp corner), it should be ``sharp". See the figure for a couple of examples. A number of different ways of constructing this were tried. In the end the method used was to project the ``inside" vectors of both walls and calculate the point on the plane where they meet, and do the same for the ``outside" reflexive angles. This produces ideal results in the vast majority of cases, though walls do protrude a long distance when they meet at very sharp angles. 
+
+Constructing the edge list on each vertex and handling the meetings pairwise means that the algorithm can handle arbitrarily many walls meeting at one point. However there are some cases it is not designed to handle, such as when two walls overlap but do not meet at any junctions. It would be possible to handle this case in a number of ways: to disallow the tool from creating such walls; to create a junction at the intersection point; or to only build the wall up to the point where it intersects with an existing wall. The proof of concept tool does not distinguish this case.
+
+\subsection{Results}
+Employing this algorithm removed all cases of overlapping textures and depth fighting arising from two wall textures meeting. On very sharp angles, the distance travelled by the 
+Preliminary testing showed that the algorithm ran well within one frame (approximately 11ms) on reasonably sized levels. There was little to no slowdown even on more difficult cases, such as many complete polygons and endpoints with a large number of incident walls\textsuperscript{F5}. 
+
+
+\section{Doorways and Constructive Solid Geometry}
+\label{sec:csg}
+
+The wall mesh outlined in Section~\ref{sec:mesh} is extensive and produces high quality output, but it only produces flat vertical faces. In order to replicate architecture in a realistic manner, it is necessary to cut holes in the walls, for doors and windows. The technique employed here is called \acrlong{csg}. A special case of the \acrshort{csg} technique is used to deal with our non-primitive, pre-defined wall mesh.
+
+\subsection{Theory}
+
+\acrlong{csg} is an extension of the 2D technique known as Boolean Operations on Polygons. This system relates the traditional boolean operations (AND, OR, XOR) and binary subtraction, to geometric shapes. For example, \verb|Union()| on two overlapping squares will create a polygon from the outer perimeter of the two. The CSG and BOoP systems are both used in many \acrlong{cad} programs, as they can be used to model complex systems and shapes with very simple definitions. The algorithms backing both CSGs and BOoP are complex and have only been implemented a handful of times across all platforms. The most notable implementation is CGAL~\cite{cgal},  which is a collection of a large number of 2D and 3D geometric algorithms in C++. There is no known best time complexity for CSG in the general case, but \cite{csgsub} has an upper bound of $n^4$ where $n$ is the number of primitive faces. It is unrealistic to calculate CSGs every frame for our application which may have a large number of subtractions.
+
+
+\subsection{Implementation}
+\label{sec:csgimp}
+
+The usage of CSG for this application was a very restricted case. We only needed to: [a] cut holes (subtraction operation); [b] with cuboids, from cuboids; [c] which were axis aligned relative to each other. In this case it was suspected that the algorithm could be implemented directly without resorting to complete CSG; this would also greatly improve the runtime complexity. The initial implementation plan was to go ``along" each wall, drawing full-height quadrilaterals where there were no holes and partial-height quadrilaterals around the top and bottom of holes. This would have worked well. However, the algorithm would not succeed on the far more complex wall meshes which were designed by the algorithm in Section~\ref{sec:mesh}; junctions can be constructed such that one side of a wall is much longer than the other side, which would make computing the correct vertex locations very difficult.
+
+As a result, it was decided to fall back on a full CSG library. The technique here would be to create cuboid objects in the relevant locations and use the \verb|Subtraction| operation to ``cut" the holes from the main LevelRender mesh. After exploring the options we settled on the CSG library known as \verb|CSG.cs|~\cite{csgcs}; This is a port of the popular Javascript library \verb|CSG.js|~\cite{csgjs} to the C\# language, with specific Unity bindings. It is designed such that the programmer can provide two Unity objects (in our case the \verb|LevelRender| mesh and the \verb|Hole| cuboid) as parameters to the relevant binary operation (here, \verb|Subtraction|).
+
+In order to improve expected run times, all Holes in the Level were first collected with the Union operation into one mesh composed of many constituent cuboids. This meant that only one Subtraction operation needed to take place, and the Bounds and Normals of the mesh need only be recalculated at the end. 
+
+\subsection{Intelligent Placement}
+
+Placing multiple Holes overlapping would be likely to cause the CSG operation to take longer; it may also create artifacts, which would be an undesirable outcome for the architect. As a result, an intelligent placement system was embedded in the Doorway/Window tool. Given the length of the Wall and the current number of Holes in it and their positions, it is possible to calculate whether or not a new Hole is in a valid location ahead of time and before the expensive CSG operation. When the position is invalid, the Wireframe outline turns red and the tool disallows placement of the Hole.
+
+\subsection{Results}
+
+The results for implementation were positive and negative. The CSG implementation correctly cuts doorway and window holes as expected. However there are some downsides to using the full CSG library. For one thing, the subtraction operation is slow. It was possible to reduce the runtime by approximately 50\% with the improvements described in \ref{sec:csgimp} but there was still significant slowdown with more than 20 holes on one level. This issue is mitigated by some of the features of SteamVR; see Section~\ref{lag} for more information. An upside of the system design is that only the current horizontal Level is updated when the geometry is changed; as a result a world with 100 doorways on the ground floor will still see fast updates on the first floor.
+
+A benefit of using full CSG methods is that it is theoretically possible to create arbitrarily shaped holes, including archways or circular windows. These were avoided in this project, as it was suspected that introducing more complex geometry would significantly increase the run time of the CSG operations. At present, the CSG system does not correctly modify the collision mesh used for doorways as the result of an issue with two-dimensional meshes. This means that it is not possible to target a point ``through" a doorway with the current implementation.
+
+Despite its failings, the CSG library does show its power --- using only two or three commands it is possible to create and modify almost arbitrary shapes. Better optimised CSG libraries, including the ones in CGAL, may be able to provide a more appropriate feature set, or perform the same operations with improved run times.
+
+\section{Lighting Model}
+\label{sec:lighting}
+
+By default, Unity uses a combination of different lighting and shading models. For specular shading (on objects which use the ``Default (specular)" shader), BlinnPhong illumination is used; For diffuse shading, the Lambert lighting model is used. It is possible to change the lighting model to a different algorithm and include custom shading models~\cite{customlighting}; this was considered to be out of scope. 
+
+The lighting in the software is provided from three different sources.
+
+\subsection{Global Illumination}
+\label{sec:gi}
+
+Almost all lighting in the World is provided by \acrfull{gi}. Unity relies on GI to emulate complex indirect lighting very efficiently. Realtime Global Illumination is achieved in Unity by carefully precomputing (``ba 
+
+\subsection{Directional Lighting}
+\label{dir}
+
+\subsection{Point Light Sources}
+\label{sec:points}
+
+By modifying the current ``weather", the user can change how the light appears.
+
+
+\section{Roofs and Straight Skeletons}
+\label{sec:roof}
+
+
+
+\section{Interaction in VR}
+\label{sec:interaction}
+
+\section{Importing Objects}
+\label{sec:objects}
+\label{sec:import}
+The system was designed to allow the users to easily import their own furniture and other kind of objects into the program. The system itself contains no hard-coded objects that can be placed in the scene. Instead the user can place specially created Model files in the \verb|main_Data\AssetBundles| directory in the installation location. When this is done, the program will import them  at runtime. This is implemented using Unity's AssetBundles~\cite{unity:assetbundle}. These are designed exactly for the purpose of storing Unity assets in a format that can be loaded by the application at run time. The ability to load in assets without recompiling the program makes it more flexible, versatile and dynamic\textsuperscript{F3}.
 
 In order to supply users with initial set of objects, a special button was added to the editor under the Assets menu to allow for a creation of a basic set of objects to be used within the game.
 
 \section{Saving and loading a scene}
 \label{sec:saving}
-To allow the user to save and load the projects they've been working on, a save and load menu was implemented. This has been achieved using the serialisation method~\cite{unity:serialization}. The separation of model from view was used in this process as native Unity classes are not possible to serialise, which meant that only the underlying models were possible to easily serialise and write to a file. During the loading phase the models have to be replaced by the ones found in the file, and Unity specific objects need to be reconstructed from that model. The serialisation process creates a new file that is independent from the rest of the project and can be transferred between different machines, by copying the \verb|.sav| files between the \verb|projects| directories on different machines.
+To allow the user to save and load the projects they have been working on, a save and load menu was implemented\textsuperscript{F6}. This has been achieved using the Serialisation method~\cite{unity:serialization}. The separation of model from view was used in this process as native Unity classes are not possible to serialise, which meant that only the underlying models were possible to easily serialise and write to a file. During the loading phase the models have to be replaced by the ones found in the file, and Unity-specific objects need to be reconstructed from that model. The serialisation process creates a new file that is independent from the rest of the project. These serialised files can be transferred between different machines by copying the produced \verb|.sav| files between the \verb|projects| directories on different machines\textsuperscript{NF3}.
 
 \section{Unity features in use}
 Apart from the previously mentioned AssetBundles~\cite{unity:assetbundle} and the serialisation method~\cite{unity:serialization}, a number of other Unity methods were used to speed up the development process. An important feature here is the in-built ray casting in Unity that is used in all the tools to determine the object or the location the user is pointing at. A related feature to this are the layers, which allowed certain objects to be excluded when performing ray casting; this was mainly used in the Paint Floor tool to ignore the Blueprint object which was located above the floor segment and perform ray casting against floor segments only. Without the layers the ray casting would collide with the blueprint object (which was closer to the user) instead of the floor segments.
 
-Unity's prefabs are used to store the objects that can be place-able in the scene The prefabs that are stored in the asset bundle are used to instantiate new Unity objects as a duplicate of the original object.
+Unity's prefabs are used to store the objects that can be placed in the scene. The prefabs that are stored in the asset bundle are used to instantiate new Unity objects as a duplicate of the original object.
 
-Another useful feature of Unity that was used in this project was Unity's support for distributing assets. The editor has an in build range of Standard Assets, some of which were imported into the project. Unity also has it's own assets store, which allows the developers to download 3rd party assets (including scripts, 3d models, textured and more) into their own project for free or for a fee.
+Another useful feature of Unity that was used in this project was Unity's support for distributing assets. The editor has an inbuilt range of Standard Assets, some of which were imported into the project. Unity also has its own assets store, which allows developers to download third-party assets (including scripts, 3d models and textures) into their project for free or for a small charge.
 
 % Expand on what Standart Aseets we used?
 
 \section{Imported Assets}
-To save us the trouble of creating 3D models to use in the program, two packages were downloaded from the Unity Asset Store and used in the project. Those packages were:
+In order to spend time working on the system rather than dynamic content, a number of external 3D models were used in the program. Two packages were acquired from the Unity Asset Store and are provided with the project as a proof of concept. Those packages are:
 \begin{itemize}
-    \item \textbf{Free Furniture Set} - a collection of wooden furniture, available at \url{https://www.assetstore.unity3d.com/en/#!/content/26678}
-    \item \textbf{Gray Furniture Pack} - a collection of grey objects, both furniture and electronics, availible at \url{https://www.assetstore.unity3d.com/en/#!/content/40580} 
+    \item \textbf{Free Furniture Set} - a collection of wooden furniture, available at\\ \url{https://www.assetstore.unity3d.com/en/#!/content/26678}
+    \item \textbf{Gray Furniture Pack} - a collection of grey furniture and electronics, available at \url{https://www.assetstore.unity3d.com/en/#!/content/40580} 
 \end{itemize}
 
-Those assets were available for free and the licencing allows them to be used in our project as discussed in section~\ref{sec:legal}.
+Those assets are available free of charge and the licensing allows them to be used in our project as discussed in section~\ref{sec:legal}.

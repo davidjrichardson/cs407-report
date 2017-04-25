@@ -2,3 +2,18 @@ Add images to the Tools section to show the blueprints in Unreal vs scripts in U
 Link to Fabric Engine http://fabricengine.com/industries/virtual-reality/
 
 Tikz diagram for MVC pattern
+
+Add tools images
+
+fix Figures wot alex made
+
+image for wall intersections problem (mesh section) and solution
+
+https://unity3d.com/learn/tutorials/topics/virtual-reality/movement-vr
+
+reference CGAL in the CSG section
+ref CSG: An algorithm for direct display of CSG objects by spatial subdivision
+ref csgcs https://github.com/omgwtfgames/csg.cs
+ref customlighting https://docs.unity3d.com/Manual/SL-SurfaceShaderLighting.html
+
+write up implementation section

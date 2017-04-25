@@ -6,8 +6,9 @@ There are other VR engines - Fabric Engine is one which has been designed from t
 Unity and Unreal Engines are comparable in terms of complexity and features. However during preliminary testing we found that the Unreal engine's API was designed around its Blueprints feature, and that it was simpler to directly write code in Unity using C\# and the Unity API. We also found that the lighting model (especially Real-Time Global Illumination) was easier to manipulate in Unity, something integral to our specification for the project. As a result the system has been designed with Unity and the Unity API at its core.
 
 \section{Design Outline}
-
+\label{sec:design}
 Our initial goal was to use the Model-View-Controller pattern as a base for the project's design. The Unity engine already provides the Control portion - the majority of the input is provided by the static Input API. Therefore we designed the Model and View as separate entities; in this way, our code implements how the Control can bring about state transitions in the Model, and the rendering pipeline maps from the Model to the View.
+
 
 %Insert MVC diagram here
 %Model: Abstract representation of Building, Objects

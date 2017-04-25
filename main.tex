@@ -21,10 +21,12 @@
 
 \usepackage{fancyhdr}
 \usepackage{tikz}
+\usetikzlibrary{trees}
 \usepackage{pgfgantt}
 \usepackage{graphicx}
 \usepackage{tabularx}
 \graphicspath{{Graphics/}}
+\usepackage[]{algorithm2e}
 
 \usepackage{enumitem}
 \usepackage{parskip}
@@ -159,9 +161,9 @@
 \label{chp:implementation}
 \input{Implementation/implementation}
 
-\chapter{User Guide}
-\label{chp:user_guide}
-\input{UserGuide/guide}
+%\chapter{User Guide}
+%\label{chp:user_guide}
+%\input{UserGuide/guide}
 
 \chapter{Testing}
 \label{chp:testing}
@@ -172,8 +174,8 @@
 \input{ProjectManagement/project_management}
 
 \chapter{Project Outcome}
-% \label{chp:evaluation}
-% \input{Conclusions/evaluation}
+\label{chp:evaluation}
+\input{Conclusions/evaluation}
 
 \chapter{Conclusion and Future Work}
 \label{chp:conclusions_further_work}
