@@ -206,15 +206,19 @@ The lighting in the software is provided from three different sources.
 \subsection{Global Illumination}
 \label{sec:gi}
 
-Almost all lighting in the World is provided by \acrfull{gi}. Unity relies on GI to emulate complex indirect lighting very efficiently. Realtime Global Illumination is achieved in Unity by carefully precomputing (``ba 
+Almost all lighting in the World is provided by \acrfull{gi}. Unity relies on GI to emulate complex indirect lighting very efficiently. Realtime Global Illumination is achieved in Unity by carefully pre-computing (\textit{baking}) all possible lighting situations and how light would bounce. This is only available for static objects however, and so the software can only use these for the Principal objects (see Section \ref{sec:principal}). 
+
+In cases where full GI cannot be achieved at runtime, Unity falls back on Ambient lighting - a base amount of light which exists in all places and is used to light objects which would otherwise be in total darkness. Our software uses a fairly high Ambient lighting level; this means users can see and work on rooms which would be very dark in reality. 
 
 \subsection{Directional Lighting}
 \label{dir}
 
+By default there is one main directional lighting source in the World: the Sun. Using the Weather tool it is possible to change not only the position of the Sun, but the colour and intensity of the light that it provides. Shadow is cast by everything in the World, including walls, floors, ceilings and objects. Because the shadow cast is dependent on the rendered mesh, cutout doorways and windows do not cast shadows (as is expected). 
+
 \subsection{Point Light Sources}
 \label{sec:points}
 
-By modifying the current ``weather", the user can change how the light appears.
+One of the Objects provided with the software is a Lamp; when this lamp is placed, a Point light source is attached to it such that it gives out a small amount of light. Due to the partial lighting computation, there were originally some minor artifacts with walls. However, being able to customise the lighting of a building is an important part of architectural design. The introduction of three-dimensional walls removed the problem of light bleeding through to other rooms.
 
 
 \section{Roofs and Straight Skeletons}

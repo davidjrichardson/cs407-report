@@ -1,1 +1,44 @@
-% Despite multiple scope changes throughout the project, the initial requirements ended up being mostly unchanged at the end and resulted in being mostly fulfilled. On the earlier stages of the project, there were plans to extend the requirements to include some physics simulation aspects into the software. Those plans were however abandoned when the team was reduced and the project returned to the original requirements. Most of the requirements of the project are met in full, some of them are only satisfied partially. The appropriate tables include comments explaining how and to what extend those requirements were met.
+The aim of this project was to design and develop a architectural visualisation tool for use with virtual reality systems, proving its effectiveness by constructing a familiar space in virtual reality as a demonstration to project supervisors. This chapter will evaluate the success of the project against its original requirements, including summary of the results of creating the arch. vis. tool. The project's scheduling will also be evaluated, with suggestions being given as to how the project could be extended in the future.
+
+\section{Project Deliverables}
+
+    \subsection{Architectural Visualisation Tool}
+    
+        The single greatest challenge facing the creation of the arch. vis. tool for the project was the departure of the group's 4th member. Them leaving the project caused a number of changes to the project's aim, objectives, requirements, and implementation details. Because of this, a portion of the already-developed software needed re-development to better align it with the revised project specification. A large amount of time that was originally allocated to the development of the project was instead re-allocated to researching best practices and how to use the Unity \acrshort{sdk} and C\# standard library. Overall, the resulting features of the arch. vis. tool allow a user to create and manipulate 3D spaces in a virtual environment. These scenes can be saved and loaded at will. Furniture with dynamic lighting elements can be introduced to the scene. Windows and doorways can be added to the wall structures dynamically, and floors and roofs can be constructed between levels in a scene to separate floors of a building. The user of the tool can navigate the world by walking around in the area that the \acrshort{vr} system is set up in, or by using a teleport utility that moves them across distances that cannot be transited by just walking. The environmental lighting for the scene is also modifiable, allowing the user to change the time of day and the colour of the light.
+    
+\section{Time Management}
+
+    Following on from the initial planning phases of this project, a rough prototype of a possible software was created to investigate the feasibility of the project's aims. Once it was determined that the specification was feasibly satisfiable, a Gantt chart was created by the group to be used as a means to scheduling the tasks that are required to be completed throughout terms 1 and 2. Half way through term 1, the group had its 4th project member depart, sparking a number of emergency meetings with supervisors and departmental heads. From these meetings it was decided that the project would move ahead with a revised specification that was designed to suitably meet the remaining group member's abilities. The previously created Gantt chart and tasks lists were revised to reflect the changes to the project specification. A number of contingency measures were put in place within the schedule that allowed for certain tasks to overrun due to individual member commitments like coursework deadlines. The work on this report did start a few weeks late due to coursework commitments for all group members in week 10 of term 2. Lost time was made up for in the timetable, and it was completed on time for its deliverable in week 1 of term 3. Overall, the project progressed according to the schedules produced both at the start of the project, and after the departure of the group's 4th member. Because of this, no extensions for the deliverables were requested and the project was successfully delivered within the original time constraints as set out by the department.
+
+\section{Requirements Evaluation}
+
+    In chapter~\ref{chp:specification} the specification for the project it laid out and detailed. In this specification, a number of functional and non-functional requirements are listed, for which the completion of all requirements would lead to a software solution that meets the objectives and overall aims of the project. Since non-functional requirements are difficult to quantify by typically being of a subjective nature, most of them can be seen when the software is being demonstrated. Tables~\ref{tab:fun_requirements_eval} and~\ref{tab:nonfun_requirements_eval} give justification as to why each requirement has been met.
+    
+    \begin{center}
+        \begin{longtable}{ | c | p{0.75\textwidth} |  }
+            \caption{Evaluation of functional requirements for the project software}\label{tab:fun_requirements_eval}\\%
+            \hline Code & Justification\\ \hline
+                F1 & The tool uses a camera that is controlled by user input from moving the the physical world. \\  \hline
+                F2 & The menu systems, tools, and utilities are all operated by the \acrshort{vr} controllers. \\\hline
+                F3 & The wall tools allows the user to create and delete walls. The doorway and window tool gives users the ability to modify the walls with windows and doorways. The furniture tool allows furniture assets to be placed in the world. \\\hline
+                F4 & The default scene is a grassy plane that has no pre-built structures in it. \\\hline
+                F5 & The graphics complexity of the solution is at a sufficient level to allow for realistic renditions of scenes whilst also not causing frame stutters or frame rate drops. \\\hline
+                F6 & The save and load system menus allow the user to do this. \\\hline
+                F7 & The SteamVR plugin used by the project handles crashes and non-responsive software gracefully. \\\hline
+                F8 & The time of day and light colour tool allows the user to do this. \\\hline
+        \end{longtable}
+    \end{center}
+    
+    \begin{center}
+        \begin{longtable}{ | c | p{0.75\textwidth} | }
+            \caption{Evaluation of non-functional requirements for the project software}\label{tab:nonfun_requirements_eval}\\%
+            \hline Code & Justification\\ \hline
+            NF1 & A clean user interface and a limited number of tools that have distinct functionality with clear naming conventions leaves little for the user to be confused about. \\  \hline
+            NF2 & The user manuals for the HTC Vive and the project's software complete this requirement. \\\hline
+            NF3 & The save feature saves scenes to disk which can then be transferred between users by means such as USB thumb drive or the internet. \\\hline
+        \end{longtable}
+    \end{center}
+
+\section{Future Work}
+
+    Whilst the project's functionality covers all that is necessary to build 3D structure in \acrshort{vr}, there are many extensions and improvements that could be made to it in the future. In order to extend the base functionality of the tool, the addition of several tools for the creation of circular structures or walls would give users more creative flexibility. Similarly, the ability to add staircases would give users a way to tie floors together. There are a number of visual anomalies with the way walls are rendered due to the lack of face normal groups and UVW maps that would also be possible to fix in the future. Fixing the UVW maps of walls would also allow for a texture-based painting tool to be implemented on top of the current tool that just uses solid colour. Other features like the ability to import assets into the tool on the fly would give architects the ability to create their own bespoke furnishings for their scenes and import them. Performance optimisations within the CSG code in the project could also be done to improve the performance of the tool when it comes to more complex scenes as well. The original simulation aspect could also be reintroduced in the future, though the amount of work required to implement this would be significant since it would require a reorganisation of the code base to integrate it in a way that is easily maintainable.

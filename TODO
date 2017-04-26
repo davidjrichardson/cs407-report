@@ -17,3 +17,5 @@ ref csgcs https://github.com/omgwtfgames/csg.cs
 ref customlighting https://docs.unity3d.com/Manual/SL-SurfaceShaderLighting.html
 
 write up implementation section
+
+Add part to lit review about existing solutions
