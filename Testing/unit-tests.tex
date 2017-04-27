@@ -1,0 +1,46 @@
+\begin{table}[]
+
+\centering
+\caption{Final set of Unit Tests used during QA4}
+\label{tab:unit-tests}
+\begin{tabular}{lp{10cm}c}
+\hline
+\textbf{Testing Group}             & \textbf{Test}                                                                                          & \textbf{Result} \\ \hline
+\textbf{(1) Wall mesh}             &                                                                                                        &        \\
+\textbf{}                          & Wall placed from point A to B is spawned from A to B\textsuperscript{F3}                               & \ding{51}       \\
+\textbf{}                          & Walls placed are correct width                                                                         & \ding{51}       \\
+                                   & Graph with 100 edges generates mesh in \textless 11 ms\textsuperscript{NF1}                            & \ding{51}       \\ \hline
+\textbf{(2) Wall correctness} &                                                                                                        &      \\
+                                   & 90 degree corner generated correctly                                                                   & \ding{51}       \\
+                                   & T-junction generated correctly                                                                         & \ding{51}       \\
+                                   & Box (closed loop) of walls generated correctly                                                         & \ding{51}       \\
+                                   & 16 pointed star (one junction) generated correctly                                                     & \ding{51}       \\
+                                   & Walls of length 0 not generated                                                                        & \ding{51}       \\
+                                   & Walls which overlap not generated                                                                      & \ding{51}       \\
+                                   & Wall meshes placed at correct position on Y axis                                                       & \ding{51}       \\ \hline
+\textbf{(3) Roof mesh}             &                                                                                                        &        \\
+                                   & Roof mesh is spawned at correct position on Y axis                                                     & \ding{51}       \\
+                                   & Triangular, rectangular, octagonal roofs genrated correctly                                            & \ding{51}       \\ \hline
+\textbf{(4) Floor mesh}            &                                                                                                        &       \\
+                                   & Floor mesh is spawned at correct position on Y axis                                                    & \ding{51}       \\
+                                   & Triangular, rectangular, octagonal floors genrated correctly                                           & \ding{51}       \\ \hline
+\textbf{(5) Painting}              &                                                                                                        &        \\
+                                   & Walls, floors, roofs, and objects can be painted\textsuperscript{F3}                                   & \ding{51}       \\ \hline
+\textbf{(6) Deletion}              &                                                                                                        &      \\
+                                   & Floors, roofs, and objects can be deleted\textsuperscript{F3}                                          & \ding{51}       \\ \hline
+\textbf{(7) Objects}               &                                                                                                        &        \\
+                                   & Objects can be selected with the Selection tool                                                        & \ding{51}       \\
+                                   & Objects are placed at the rotation of the controller                                                   & \ding{51}       \\
+                                   & Objects can be scaled                                                                                  & \ding{51}       \\ \hline
+\textbf{(8) Weather}               &                                                                                                        &        \\
+                                   & Time of day can be changed                                                                             & \ding{51}       \\
+                                   & Lighting channels can be changed on the Sun                                                            & \ding{51}       \\ \hline
+\textbf{(9) Menus}                 &                                                                                                        &       \\
+                                   & Tools and Save menus are summoned on button press\textsuperscript{F2}                                  & \ding{51}       \\
+                                   & Tools and Save menus are un-summoned on button press                                                   & \ding{51}       \\
+                                   & The menus can be used with any tool selected\textsuperscript{F2}                                       & \ding{51}       \\ \hline
+\textbf{(10) Saving/Loading}       &                                                                                                        &       \\
+                                   & Pressing the Save button creates a correct save file\textsuperscript{NF3}                              & \ding{51}       \\
+                                   & Pressing the Load button for a save file loads the file as it was before saving\textsuperscript{NF3}   & \ding{51}       \\\hline    
+\end{tabular}
+\end{table}

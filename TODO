@@ -11,11 +11,15 @@ image for wall intersections problem (mesh section) and solution
 
 https://unity3d.com/learn/tutorials/topics/virtual-reality/movement-vr
 
-reference CGAL in the CSG section
-ref CSG: An algorithm for direct display of CSG objects by spatial subdivision
+https://www.sthu.org/
+
+ref CGAL in the CSG section
+ref csgsub An algorithm for direct display of CSG objects by spatial subdivision
 ref csgcs https://github.com/omgwtfgames/csg.cs
 ref customlighting https://docs.unity3d.com/Manual/SL-SurfaceShaderLighting.html
+ref steamvrlib https://www.assetstore.unity3d.com/en/#!/content/32647
 
-write up implementation section
+testing image
 
-Add part to lit review about existing solutions
+testing against the spec
+

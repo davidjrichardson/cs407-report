@@ -24,5 +24,36 @@
     
     The paper concludes that their approach had positive impact on the collaboration of the designer during the design process. The usefulness of the immersive environment was rated highly on the scale the researchers used. The paper concentrates more on commenting the 2D part of the system rather than the~\acrshort{vr} aspect of it, but it states that the authors plan to perform further study on the~\acrshort{vr4d} in the next paper, but we were unable to find such paper.
     
+    
 \section{Existing Solutions}
 \label{sec:existing_solutions}
+
+    % I will still review the below, Jakub
+
+    One of the existing solutions to the problems we are trying to tackle in our project is a virtual design tool created by Autodesk~\cite{autodesk_interns_youtube}. It's build in Autodesk's ``Stingray" engine and was released around the beginning of this project. The~\acrshort{vr} Design tool was created as a demo of the capabilities of the engine, and not aimed to be a full stand-alone application and seems to have been discontinued since the time it was released. The lack of information about the tool makes it hard to determine exactly what functionality it had, but the video suggests a very similar range of functions to our system.
+    
+    The video shows the ability to construct arbitrary 3D polygons, something we have since implemented via the wall tool, the floor tool and the roof tool. In both systems this set of tools is required to build the surrounding of the area that is being worked on: mainly the walls, the floor and the roof. Both systems also support manipulation of objects. Autodesk's solution allows for a potentially more intuitive approach with two controllers for rotating and placing objects, while we went for a one controller solution which is simpler and more flexible. There is also no information about how the object library is managed by Autodesk's tool, or how changing the textures of items is handled. Those unknowns make it hard to compare the two systems, but it seems that our system has more functionality, at a cost of slightly less intuitive operation. Despite that the system in question was useful to us in the early stages of the project to show us what a potential solution may look like, and how we deviated from their designs.
+
+    Another popular~\acrshort{vr} sandbox tool is Google Tiltbrush~\cite{google_tiltbrush}. Unlike the previous application this one has more of an artistic purpose to it. It doesn't have a massive support for creating and manipulating objects, or creating polygons. Instead it offers the user an ability to paint 3D lines in mid air with a controller. The results have more of a sketch look, rather than a real life feel to them, which makes this tool less usable for the purposes we are dealing with. On the other hand, the popularity and quality of this tool helped us to learn more about the user experience in~\acrshort{vr} at the start of the project. Unlike the previous application we had a chance to use this tool in practise to get some valuable experience in using virtual reality for a purpose of modifying your surrounding.
+
+    The last real-life product that was relevant in the course of this project was a~\acrshort{vr} visualisation tool~\cite{arch_virtual_oculus}. This tool doesn't allow the user to edit their surrounding, but instead provides them with means to navigate through highly-detailed, pre-generated surrounding that represents a previously created design. The discovery of this application, showed us that our  idea, already has similar programs, used by professional interior designers.
+
+
+\section{Useful Approaches}
+\label{sec:algos}
+
+    Before planning any implementation, some possible algorithmic techniques and libraries were identified which may simplify complex processes or provide insight into engineering solutions. The techniques researched are all applications of Computational Geometry, a field of mathematics which deals with the representation of objects in a mathematically computable way.
+
+\subsection*{CSGs}
+    
+    \acrfull{csg} is a relatively modern technique which applies Boolean logic to primitive volumetric shapes in order to create complex parametric objects. The theory and practice of this technique is covered in more detail in Section~\ref{sec:csg} as it was used for doorways and windows. 
+    
+\subsection*{Straight Skeletons}
+    
+    A \textit{Straight Skeleton} is a representation of a polygon. This representation is a tree, such that the leaves are the vertices of the polygon. It shares properties with the medial axis of polygons and with voronoi diagrams, though edges of the tree are always line segments, hence ``straight". 
+    
+    The straight skeleton is the canonical method of procedurally generating peaked roof meshes with sloped edges. Internal nodes of the tree are points where vertices meet, forming a ``peak". The internal nodes of the straight skeleton can be projected upwards by a distance equal to their distance from the edge of the polygon; this produces the three-dimensional roof mesh. A \textit{weighted} straight skeleton can be further used to add slopes of varying gradient for asymmetric roofs. 
+    
+    There are a number of existing libraries which implement the straight skeleton algorithm. The most popular is CGAL~\cite{cgal}, a large library containing many computational geometry algorithms. These have been shown to have fast (often optimal) complexity. However, the library exists in C++ and there are no C\# bindings. One user wrote a wrapper to C\#~\cite{cgalwrap}, though it requires compiling both CGAL and the wrapper from source with a number of dependencies, which was determined to be too much additional weight for the project.
+    
+    As a result, the intention was to implement the straight skeleton algorithm in C\# manually --- this had not been achieved before due to the complexity of the algorithm itself. Despite the promise of this technique, it was not implemented in the final deliverable --- peaked roofs were not part of the initial specification and the feature was left as a potential extension to the project.

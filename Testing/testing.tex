@@ -1,0 +1,43 @@
+The software we have built is a product designed for use by many different people in a range of environments. There are many complex algorithms which interact with each other, which may be prone to bugs. Working in a VR environment provides additional quality assurance concerns, such as user comfort and intuitive design. As a result, our testing strategy formed an important part of development. 
+
+\section{Systems and Integration Testing}
+
+Each new feature that was added underwent a rigorous set of tests to ensure that it operated correctly in all cases. This was a qualitative process, though rather than simply using the new features, test cases were chosen specifically such that they would prove correctness in unusual situations and fringe cases. Some of the more extreme tests, such as the stress testing of wall mesh generation, became Unit tests and were repeated at later instances to ensure functionality had not been lost.
+
+A good example of where integration testing was useful was with the Tools menu. When dealing with new tools such as Object placement and Selection and Floor construction, we found that the Tools menu could not be interacted with, meaning the user could not use the menu - in fact, the user placed objects onto the tools menu or drew a floor vertex on it, respectively. These tools were then modified such that they could not target the tools menu, and when they did they changed tool rather than activating. These issues would not have been discovered with piecemeal system testing, and only through immersive integration testing were they found.
+
+All opportunities were taken to test new systems in the VR environment as well as on the Desktop. This was difficult due to the overheads of time and effort required in setup. In times where this was not possible, VR could be emulated on the destkop by manually specifying the \verb|inputMode| as part of our \verb|InputControl| class; the Controller objects could be moved manually within the editor to simulate the user moving the real-world controllers. This method was used initially to test analog controls such as weather manipulation and object scaling, though they were later proven correct in the VR system during full Quality Assurance testing.
+
+
+\section{Unit testing}
+
+Not all systems were appropriate for unit testing, though the more abstract systems had a number of features which could be tested. In particular the mesh generation algorithms, menus, and graph model could be inspected for correctness. Unit testing was repeated during each QA testing period to ensure that no bugs had been introduced with the addition of new features, and additional unit tests were written to test any new features. Unit tests were performed by hand and not automated due to the nature of the software. Please see Table~\ref{tab:unit-tests} for the final set of unit tests, all of which the software passed.
+
+\section{Quality Assurance Testing}
+
+Our initial project roadmap (see Section~\ref{sec:timetable}) set aside four periods of time dedicated to QA testing; these were around Weeks 9, 14, 20 and 28. The longest of these was the third, which covered weeks 20 to 22 inclusive. Having large periods of time devoted primarily to Quality Assurance meant that we were able to make minor changes to the operation of the software without introducing any new systems in the meantime. In this way, we could ensure that most bugs were removed prior to moving on and adding new, large feature sets. The last period of QA took place after the feature freeze starting in Week 26 (during the Easter holiday), and was alongside the main bug fixing session. This allowed us the freedom to add more ``polish" to the final product without worrying about introducing more issues along the way.
+
+An additional note about QA testing in room-scale VR is that it requires more commitment than QA testing for a normal application. This is the result of a number of factors. For one, some people simply do not like the Virtual Reality environment, so finding people to test the application is more difficult. Another concern is that we were explicitly testing for intuitive usage (Non-Functional requirement 1); we found that when people became used to the VR environment after the first try with the software, they were not able to determine whether or not the controls were intuitive. 
+
+Our approach to QA testing was qualitative rather than quantitative. Our pool of testers primarily comprised peers in the Department of Computer Science, as well as members of the University of Warwick Game Design Society. These testers were chosen both for willingness to engage with the software and their relative objectivity, but also because it was expected that they could provide useful and actionable feedback. Our testers spent around ten minutes using the software. During this time we took into account several factors, such as what they were doing within the World, how they interacted with menus and objects, and whether or not they were effective in their usage. We also noted any comments they made during this time. The time using the software was limited to ten minutes to reduce the risk of nausea and eye strain.
+
+There are also physical requirements which can only be tested when the software is exposed to a range of people. One example is that in the Desktop version of the tool, the user's head height is fixed at 1.5m above the current floor level. Things such as doorways, windows and objects are designed around this. As a result, particularly short or tall people may have vastly different experiences with the tool. After testing we were able to mitigate some of these issues, such as by allowing the user to position the Tool and Save menus themselves. Doorways and window heights were modelled on their real world counterparts.
+
+After the testers had completed their session, they were asked to describe their experience in the abstract. We found that asking this first gave a wider range of answers. After this, we asked more specifically about different aspects of the software, with questions like:
+
+\begin{itemize}
+    \item ``Did you enjoy using the software?"
+    \item ``Did you find that there was any lag or stuttering during your time with the software?"\textsuperscript{F5}
+    \item ``Was the software intuitive to use? Were there any tools which you had trouble using?"\textsuperscript{NF1}
+    \item ``Did you notice any visual artifacts or glitches with the architecture"\textsuperscript{F1,F4}
+\end{itemize}
+
+This gave us direct feedback on our progress with respect to the original requirements analysis. By the fourth QA testing period, we were receiving positive feedback in general and on the specific questions outlined above. This gave us a positive indicator that our software was meeting the functional and non-functional requirements we had laid out.
+
+In order to test the long-term effects of using the tool, as well as assessing the performance on larger buildings, the project team tested for longer periods of time. All team members reported that they were able to comfortably use the software for more than 30 minutes with no ill effects. One team member reported minor eye strain; this is attributed to not being able to wear larger models of glasses when in the \acrshort{hmd}.
+
+\input{Testing/unit-tests}
+
+\section{Testing Against the Specification}
+
+As mentioned in the specification section of this report, throughout this section the use of a superscript requirement code (like this\textsuperscript{F3}) is done to demonstrate that the passing of the given test indicates that the associated requirement has been satisfied in full.
